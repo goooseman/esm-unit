@@ -1,5 +1,7 @@
 # ESM Unit
 
+[![NPM Version](https://img.shields.io/npm/v/esm-unit)](https://www.npmjs.com/package/esm-unit)
+
 Lightning-fast unit testing for native ECMAScript modules.
 
 ## Features
