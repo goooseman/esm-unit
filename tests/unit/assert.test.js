@@ -35,6 +35,25 @@ describe('assert.js', () => {
       () => assert.equal(1, 0, 'Message'),
       /Expected 0 to strictly equal 1: Message$/
     );
+
+    globalThis.Node = class { };
+    globalThis.HTMLElement = class extends Node {
+      outerHTML = "<node></node>";
+    }
+    globalThis.TextNode = class extends Node {
+      nodeName = "#text";
+      textContent = "some text";
+    }
+
+    nodeAssert.throws(
+      () => assert.equal(new HTMLElement, 1),
+      /Expected 1 to strictly equal <node><\/node>$/
+    )
+
+    nodeAssert.throws(
+      () => assert.equal(new TextNode, 1),
+      /Expected 1 to strictly equal Node #text "some text"$/
+    )
   });
 
   test('assert.equalsOneOf()', () => {

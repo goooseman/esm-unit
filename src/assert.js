@@ -1,15 +1,27 @@
 import AssertionError from "./AssertionError.js";
 import { findDeepDifference } from "./deepCompare.js";
 
-const str = function(val) {
-  switch (typeof val) {
+function isDOMNode(object) {
+  return (typeof Node !== "undefined") && object instanceof Node;
+}
+
+function stringifyDOMNode(node) {
+  return node.outerHTML ?? `Node ${node.nodeName} "${node.textContent}"`;
+}
+
+function stringifyObject(sourceObject) {
+  return JSON.stringify(sourceObject);
+}
+
+function str(value) {
+  switch (typeof value) {
     case "function":
-      return `function ${val.name || 'anonymous'}`;
+      return `function ${value.name || 'anonymous'}`;
     case "object":
     case "string":
-      return JSON.stringify(val);
+      return isDOMNode(value) ? stringifyDOMNode(value) : stringifyObject(value);
     default:
-      return String(val);
+      return String(value);
   }
 }
 
